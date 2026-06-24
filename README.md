@@ -32,8 +32,8 @@ python ai_updater.py
 ```
 [扫描] 目录扫描 (Windows)
   -> D:\AIwkspace
-    ✓ ComfyUI  (a1b2c3d)  [D:\AIwkspace\ComfyUI]
-    ✓ Open WebUI  (v0.3.23)  [D:\AIwkspace\open-webui]
+    v ComfyUI  (a1b2c3d)  [D:\AIwkspace\ComfyUI]
+    v Open WebUI  (v0.3.23)  [D:\AIwkspace\open-webui]
 
 [扫描] pip (Python)
   -- 智能发现 --
@@ -67,7 +67,7 @@ python ai_updater.py
 
 ### Smart upgrade engine
 
-- **Git projects**: `git stash` (protects local changes) → `git pull` → post-update commands (pip install requirements)
+- **Git projects**: `git stash` (protects local changes) -> `git pull` -> post-update commands (pip install requirements)
 - **pip packages**: `pip install --upgrade` with PyPI version comparison
 - **Homebrew**: `brew upgrade`
 - **winget**: `winget upgrade`
@@ -127,13 +127,11 @@ The script reads it on every run. No code changes needed.
 
 ## How it works
 
-```
-┌──────────────┐    ┌───────────────┐    ┌──────────────┐    ┌──────────────┐
-│  SCAN        │ -> │  IDENTIFY     │ -> │  COMPARE     │ -> │  UPGRADE     │
-│  directories │    │  against CSV  │    │  versions    │    │  user picks  │
-│  + pkg mgrs  │    │  + AI keyword │    │  git/PyPI/   │    │  git pull /  │
-│              │    │  matching     │    │  brew API    │    │  pip upgrade │
-└──────────────┘    └───────────────┘    └──────────────┘    └──────────────┘
+```mermaid
+flowchart LR
+    A[SCAN<br/>directories<br/>+ pkg managers] --> B[IDENTIFY<br/>against CSV<br/>+ AI keyword<br/>matching]
+    B --> C[COMPARE<br/>versions<br/>git / PyPI /<br/>brew API]
+    C --> D[UPGRADE<br/>user picks<br/>git pull /<br/>pip upgrade]
 ```
 
 ## Requirements

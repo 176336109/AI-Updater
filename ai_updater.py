@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-AI Updater — 一键检测并更新电脑上所有 AI 开源软件
+AI Updater -- 一键检测并更新电脑上所有 AI 开源软件
 ==============================================
 跨平台（Win + Mac）| 50+ 预设项目 | 交互式更新
 
@@ -29,7 +29,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional
 
-# ── 可选依赖 ──────────────────────────────────────────────
+# -- 可选依赖 ----------------------------------------------
 try:
     import yaml
 except ImportError:
@@ -53,7 +53,7 @@ except ImportError:
     import requests as _requests_  # will be used fallback
     version_parse = None
 
-# ── 常量 ──────────────────────────────────────────────────
+# -- 常量 --------------------------------------------------
 SCRIPT_DIR = Path(__file__).resolve().parent
 PROJECTS_CSV = SCRIPT_DIR / "projects.csv"
 CONFIG_YAML = SCRIPT_DIR / "config.yaml"
@@ -63,7 +63,7 @@ OS_NAME = platform.system().lower()  # "windows" | "darwin" | "linux"
 IS_WIN = OS_NAME == "windows"
 IS_MAC = OS_NAME == "darwin"
 
-# ── AI 关键词 — 用于在包管理器中智能发现未在 CSV 中收录的 AI 包 ──
+# -- AI 关键词 -- 用于在包管理器中智能发现未在 CSV 中收录的 AI 包 --
 AI_KEYWORDS = {
     # 深度学习框架
     "torch", "pytorch", "tensorflow", "jax", "keras", "mxnet", "oneflow",
@@ -122,7 +122,7 @@ def _is_ai_package(name: str) -> bool:
     return False
 
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 @dataclass
 class Project:
     """来自 projects.csv 的一行"""
@@ -174,7 +174,7 @@ def _make_synthetic_project(name: str, category: str, update_method: str) -> Pro
     )
 
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 @dataclass
 class Detection:
     """一次检测结果"""
@@ -187,15 +187,15 @@ class Detection:
     status: str = "unknown"      # updatable / latest / error / manual
 
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 #  1. 加载配置
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 
 def load_projects() -> list[Project]:
     """从 projects.csv 加载所有项目"""
     projects = []
     if not PROJECTS_CSV.exists():
-        print(f"{Fore.RED}✗ 找不到 {PROJECTS_CSV}，请确保 projects.csv 存在。")
+        print(f"{Fore.RED}x 找不到 {PROJECTS_CSV}，请确保 projects.csv 存在。")
         return projects
 
     with open(PROJECTS_CSV, encoding="utf-8-sig") as f:
@@ -257,7 +257,7 @@ def load_config(config_path: Optional[str] = None) -> dict:
 
     if not cfg_path.exists():
         _write_default_config(cfg_path, default_config)
-        print(f"{Fore.GREEN}✓ 已生成默认配置 -> {cfg_path}")
+        print(f"{Fore.GREEN}v 已生成默认配置 -> {cfg_path}")
         return default_config
 
     try:
@@ -302,9 +302,9 @@ def resolve_paths(paths: list[str]) -> list[Path]:
     return resolved
 
 
-# ═══════════════════════════════════════════════════════════
-#  2. 目录扫描 — 检测 Git 项目和特征文件
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
+#  2. 目录扫描 -- 检测 Git 项目和特征文件
+# ===========================================================
 
 def scan_directories(config: dict, projects: list[Project]) -> dict[str, Detection]:
     """扫描路径中的 Git 项目 + 特征文件，返回 {unique_key: Detection}"""
@@ -350,7 +350,7 @@ def scan_directories(config: dict, projects: list[Project]) -> dict[str, Detecti
                     key = f"git:{det.project.name}:{entry}"
                     if key not in detections:
                         detections[key] = det
-                        print(f"    {Fore.GREEN}✓ {det.project.name}  ({det.current_version})  [{entry}]")
+                        print(f"    {Fore.GREEN}v {det.project.name}  ({det.current_version})  [{entry}]")
             else:
                 # 检测特征文件
                 det = _identify_by_signature(entry, projects)
@@ -358,7 +358,7 @@ def scan_directories(config: dict, projects: list[Project]) -> dict[str, Detecti
                     key = f"sig:{det.project.name}:{entry}"
                     if key not in detections:
                         detections[key] = det
-                        print(f"    {Fore.GREEN}✓ {det.project.name}  ({det.current_version})  [{entry}] — 特征检测")
+                        print(f"    {Fore.GREEN}v {det.project.name}  ({det.current_version})  [{entry}] -- 特征检测")
 
     return detections
 
@@ -453,9 +453,9 @@ def _guess_version(entry: Path, project: Project) -> str:
     return ""
 
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 #  3. 包管理器扫描
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 
 def scan_package_managers(config: dict, projects: list[Project]) -> dict[str, Detection]:
     """依次扫描启用的包管理器（预设匹配 + 智能发现）"""
@@ -534,7 +534,7 @@ def _scan_pip(projects: list[Project], detections: dict[str, Detection]):
                         key = f"pip:{p.name}:{installed['name']}"
                         if key not in detections:
                             detections[key] = det
-                            icon = "✓" if det.update_available else "✔"
+                            icon = "v" if det.update_available else "="
                             print(f"  {Fore.GREEN}{icon} {p.name} ({installed['version']})  {'-> ' + latest if latest else ''}")
 
 
@@ -575,7 +575,7 @@ def _scan_npm(projects: list[Project], detections: dict[str, Detection]):
                 pkg_lower = installed_name.lower()
                 for pp in p.pip_pkgs():
                     if pp.lower() in pkg_lower:
-                        print(f"  {Fore.GREEN}✓ {p.name} ({installed_ver}) — npm global")
+                        print(f"  {Fore.GREEN}v {p.name} ({installed_ver}) -- npm global")
                         det = Detection(
                             project=p, current_version=installed_ver,
                             detected_by="npm", detected_path=installed_name,
@@ -624,7 +624,7 @@ def _scan_brew(projects: list[Project], detections: dict[str, Detection]):
                 key = f"brew:{p.name}:{name}"
                 if key not in detections:
                     detections[key] = det
-                    icon = "✓" if det.update_available else "✔"
+                    icon = "v" if det.update_available else "="
                     print(f"  {Fore.GREEN}{icon} {p.name} ({current_ver})  -> {latest_ver}")
 
 
@@ -672,7 +672,7 @@ def _scan_winget(projects: list[Project], detections: dict[str, Detection]):
                 key = f"winget:{p.name}:{installed_id}"
                 if key not in detections:
                     detections[key] = det
-                    print(f"  {Fore.GREEN}✓ {p.name} ({current_ver})")
+                    print(f"  {Fore.GREEN}v {p.name} ({current_ver})")
 
 
 def _get_winget_list() -> dict[str, dict]:
@@ -721,7 +721,7 @@ def _scan_conda(projects: list[Project], detections: dict[str, Detection]):
             for p in projects:
                 for pp in p.pip_pkgs():
                     if pp.lower().replace("-", "_") == pkg_name.lower().replace("-", "_"):
-                        print(f"  {Fore.GREEN}✓ {p.name} ({version}) — conda")
+                        print(f"  {Fore.GREEN}v {p.name} ({version}) -- conda")
                         det = Detection(
                             project=p, current_version=version,
                             detected_by="conda", detected_path=pkg_name,
@@ -746,7 +746,7 @@ def _get_conda_list() -> dict[str, str]:
     return {}
 
 
-# ── 智能发现 —— 扫描全部已装包，抓出 AI 相关的（不限 CSV 预设）────
+# -- 智能发现 ---- 扫描全部已装包，抓出 AI 相关的（不限 CSV 预设）----
 
 def _discover_pip(detections: dict[str, Detection]):
     pip_pkgs = _get_pip_list()
@@ -794,7 +794,7 @@ def _discover_npm(detections: dict[str, Detection]):
             project=sp, current_version=version, detected_by="npm",
             detected_path=name, status="updatable",
         )
-        print(f"  {Fore.MAGENTA}- [发现] {name} ({version})  — npm global")
+        print(f"  {Fore.MAGENTA}- [发现] {name} ({version})  -- npm global")
         found += 1
     if found:
         print(f"  {Fore.MAGENTA}  npm 智能发现 {found} 个 AI 相关包")
@@ -879,7 +879,7 @@ def _discover_conda(detections: dict[str, Detection]):
             project=sp, current_version=version, detected_by="conda",
             detected_path=name, status="updatable",
         )
-        print(f"  {Fore.MAGENTA}- [发现] {name} ({version})  — conda")
+        print(f"  {Fore.MAGENTA}- [发现] {name} ({version})  -- conda")
         found += 1
     if found:
         print(f"  {Fore.MAGENTA}  conda 智能发现 {found} 个 AI 相关包")
@@ -929,14 +929,14 @@ def check_git_updates(detections: dict[str, Detection]):
                 det.update_available = True
                 det.status = "updatable"
                 det.latest_version = _git_remote_head(repo_path)
-                print(f"  {Fore.YELLOW}↻ {det.project.name}: 落后 {behind} 个 commit  -> {det.latest_version}")
+                print(f"  {Fore.YELLOW}~ {det.project.name}: 落后 {behind} 个 commit  -> {det.latest_version}")
             else:
                 det.update_available = False
                 det.status = "latest"
-                print(f"  {Fore.GREEN}✓ {det.project.name}: 已是最新")
+                print(f"  {Fore.GREEN}v {det.project.name}: 已是最新")
         except Exception as e:
             det.status = "error"
-            print(f"  {Fore.RED}✗ {det.project.name}: fetch 失败 ({e})")
+            print(f"  {Fore.RED}x {det.project.name}: fetch 失败 ({e})")
 
 
 def _git_behind_count(repo_path: Path) -> Optional[int]:
@@ -1003,26 +1003,26 @@ def report(detections: dict[str, Detection]):
 
     if preset:
         print(f"\n{Fore.CYAN}{'='*100}")
-        print(f"{Fore.CYAN}{Fore.WHITE}[预设项目] 来自 projects.csv — 共 {Fore.YELLOW}{len(preset)}{Fore.WHITE} 个")
+        print(f"{Fore.CYAN}{Fore.WHITE}[预设项目] 来自 projects.csv -- 共 {Fore.YELLOW}{len(preset)}{Fore.WHITE} 个")
         print(f"{Fore.CYAN}{'='*100}")
         _print_table(preset)
 
     if discovered:
         print(f"\n{Fore.MAGENTA}{'='*100}")
-        print(f"{Fore.MAGENTA}{Fore.WHITE}[智能发现] 来自包管理器 AI 关键词匹配 — 共 {Fore.YELLOW}{len(discovered)}{Fore.WHITE} 个")
+        print(f"{Fore.MAGENTA}{Fore.WHITE}[智能发现] 来自包管理器 AI 关键词匹配 -- 共 {Fore.YELLOW}{len(discovered)}{Fore.WHITE} 个")
         print(f"{Fore.MAGENTA}{'='*100}")
         _print_table(discovered)
 
     updatable_count = sum(1 for d in dets if d.status == "updatable")
     latest_count = len(dets) - updatable_count
-    print(f"\n{Fore.WHITE}{'─'*60}")
+    print(f"\n{Fore.WHITE}{'-'*60}")
     print(f"  {Fore.YELLOW}可更新: {updatable_count}   {Fore.GREEN}已最新: {latest_count}   {Fore.WHITE}总计: {len(dets)}")
 
 
 def _print_table(dets: list[Detection]):
     """打印单个表格"""
     header = f"{'#':<4}{'项目':<32}{'当前版本':<18}{'最新版本':<18}{'来源':<12}{'状态'}"
-    sep = "─" * 100
+    sep = "-" * 100
     print(Fore.WHITE + header)
     print(Fore.WHITE + sep)
 
@@ -1109,19 +1109,19 @@ def interactive_update(detections: dict[str, Detection], auto: bool = False):
 
     for idx in selected:
         det = dets[idx]
-        print(f"\n  {Fore.WHITE}▶ {det.project.name} [{det.project.update_method}]")
+        print(f"\n  {Fore.WHITE}> {det.project.name} [{det.project.update_method}]")
         ok = _do_update(det)
         if ok is True:
             success += 1
-            print(f"  {Fore.GREEN}  ✅ 成功")
+            print(f"  {Fore.GREEN}  OK 成功")
         elif ok is False:
             failed += 1
-            print(f"  {Fore.RED}  ❌ 失败")
+            print(f"  {Fore.RED}  FAIL 失败")
         else:
             skipped += 1
 
     print(f"\n{Fore.CYAN}{'='*60}")
-    print(f"{Fore.CYAN}更新完成: {Fore.GREEN}✅ {success} {Fore.RED}❌ {failed} {Fore.WHITE}⏭ {skipped}")
+    print(f"{Fore.CYAN}更新完成: {Fore.GREEN}OK {success} {Fore.RED}FAIL {failed} {Fore.WHITE}SKIP {skipped}")
     print(f"{Fore.CYAN}{'='*60}")
 
 
@@ -1156,7 +1156,7 @@ def _do_update(det: Detection) -> Optional[bool]:
     elif method == "winget_upgrade":
         return _update_winget(det)
     elif method == "manual":
-        print(f"  {Fore.YELLOW}  🔗 请手动更新: {det.project.website}")
+        print(f"  {Fore.YELLOW}  LINK 请手动更新: {det.project.website}")
         return None
     else:
         print(f"  {Fore.YELLOW}  未知更新方式: {method}")
@@ -1261,13 +1261,13 @@ def _update_winget(det: Detection) -> bool:
         return False
 
 
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 #  7. 主流程
-# ═══════════════════════════════════════════════════════════
+# ===========================================================
 
 def main():
     parser = argparse.ArgumentParser(
-        description="AI Updater — 一键检测并更新 AI 开源项目",
+        description="AI Updater -- 一键检测并更新 AI 开源项目",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例:
@@ -1296,7 +1296,7 @@ def main():
     config = load_config(args.config)
     projects = load_projects()
     if not projects:
-        print(f"{Fore.RED}✗ 未能加载任何项目，请检查 {PROJECTS_CSV}")
+        print(f"{Fore.RED}x 未能加载任何项目，请检查 {PROJECTS_CSV}")
         sys.exit(1)
 
     print(f"{Fore.WHITE}已加载 {Fore.GREEN}{len(projects)}{Fore.WHITE} 个预设项目（projects.csv）")

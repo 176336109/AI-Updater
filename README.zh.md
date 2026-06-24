@@ -32,8 +32,8 @@ python ai_updater.py
 ```
 [扫描] 目录扫描 (Windows)
   -> D:\AIwkspace
-    ✓ ComfyUI  (a1b2c3d)  [D:\AIwkspace\ComfyUI]
-    ✓ Open WebUI  (v0.3.23)  [D:\AIwkspace\open-webui]
+    v ComfyUI  (a1b2c3d)  [D:\AIwkspace\ComfyUI]
+    v Open WebUI  (v0.3.23)  [D:\AIwkspace\open-webui]
 
 [扫描] pip (Python)
   -- 智能发现 --
@@ -66,7 +66,7 @@ python ai_updater.py
 
 ### 智能更新引擎
 
-- **Git 项目**：`git stash`（保护本地修改）→ `git pull` → 执行更新后命令（如 pip install requirements）
+- **Git 项目**：`git stash`（保护本地修改）-> `git pull` -> 执行更新后命令（如 pip install requirements）
 - **pip 包**：`pip install --upgrade` + PyPI API 版本比对
 - **Homebrew**：`brew upgrade`
 - **winget**：`winget upgrade`
@@ -125,13 +125,11 @@ python ai_updater.py
 
 ## 原理解析
 
-```
-┌──────────┐    ┌───────────┐    ┌──────────┐    ┌──────────┐
-│  扫描    │ -> │   识别    │ -> │  版本对比 │ -> │  一键升级 │
-│  目录    │    │  CSV 匹配 │    │  git/PyPI│    │  用户选择 │
-│  +包管理 │    │  +关键词  │    │  /brew   │    │  git pull │
-│          │    │  智能发现 │    │  API     │    │  /pip upg │
-└──────────┘    └───────────┘    └──────────┘    └──────────┘
+```mermaid
+flowchart LR
+    A[扫描<br/>目录<br/>+包管理] --> B[识别<br/>CSV 匹配<br/>+关键词<br/>智能发现]
+    B --> C[版本对比<br/>git / PyPI<br/>/ brew]
+    C --> D[一键升级<br/>用户选择<br/>git pull<br/>/ pip upg]
 ```
 
 ## 依赖
