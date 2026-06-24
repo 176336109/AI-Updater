@@ -17,11 +17,16 @@
 
 ## Install
 
-Clone anywhere, then tell Claude Code to use it:
-
 ```bash
+# 1. Clone anywhere
 git clone https://github.com/176336109/AI-Updater.git ~/.claude/skills/ai-updater
+
+# 2. Install Python dependencies
 pip install -r ~/.claude/skills/ai-updater/requirements.txt
+
+# 3. Register the slash command (so you can type /ai-updater)
+mkdir -p ~/.claude/commands
+cp ~/.claude/skills/ai-updater/.claude/commands/ai-updater.md ~/.claude/commands/ai-updater.md
 ```
 
 That's it. Now open Claude Code and run:

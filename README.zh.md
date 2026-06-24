@@ -17,11 +17,16 @@
 
 ## 安装
 
-Clone 到任意位置，然后 Claude Code 就能识别：
-
 ```bash
+# 1. Clone 到任意位置
 git clone https://github.com/176336109/AI-Updater.git ~/.claude/skills/ai-updater
+
+# 2. 安装 Python 依赖
 pip install -r ~/.claude/skills/ai-updater/requirements.txt
+
+# 3. 注册斜杠命令（这样才能敲 /ai-updater）
+mkdir -p ~/.claude/commands
+cp ~/.claude/skills/ai-updater/.claude/commands/ai-updater.md ~/.claude/commands/ai-updater.md
 ```
 
 搞定。现在打开 Claude Code，输入：
