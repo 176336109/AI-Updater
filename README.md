@@ -15,47 +15,31 @@
 
 ---
 
-## Install
+## The problem
 
-```bash
-git clone https://github.com/176336109/AI-Updater.git
-cd AI-Updater
+You installed ComfyUI six months ago via `git clone`. Then Ollama via `winget`. Then Stable Diffusion WebUI, then a dozen Python packages — `torch`, `transformers`, `gradio`, `langchain`... Then a bunch of Claude Code skills from GitHub. Some are git repos you forgot about. Some are pip packages scattered across venvs. Some are winget installs you never check.
 
-# Run the installer (auto-detects your AI tools)
-bash install.sh        # macOS / Linux
-# install.bat           # Windows
+**What's outdated? What's even installed? You have no idea.**
 
-# Install Python dependencies
-pip install -r requirements.txt
-```
+Opening each project folder one by one, running `git pull`, checking `pip list` against PyPI, checking `winget upgrade` — that's a whole afternoon you don't have.
 
-That's it. The installer copies the skill to the right config directories for:
+## The solution
 
-| Tool | Installed to |
-|---|---|
-| **Claude Code** | `~/.claude/skills/ai-updater/` + `~/.claude/commands/` |
-| **Codex** | `~/.codex/skills/ai-updater/` + `~/.codex/commands/` |
-| **Cursor** | `~/.cursor/commands/` |
-
-Now open your AI coding tool and type:
+`/ai-updater` scans your entire machine in one pass — directories AND package managers — finds every AI-related project (even the ones you forgot), checks what's outdated, and lets you upgrade with a single command.
 
 ```
 /ai-updater
 ```
 
-The skill scans your machine, finds every AI project, and asks you which ones to upgrade.
+That's it. Claude Code does the rest.
 
-## What `/ai-updater` does
-
-Type `/ai-updater` in Claude Code and the skill:
+## Demo
 
 ```
 ============================================================
 | AI Updater  --  One-click upgrade for your AI toolkit
 |==========================================================|
-|  Windows Mode                                          |
-|==========================================================|
-Loaded 212 preset projects (projects.csv)
+Loaded 229 preset projects (projects.csv)
 
 [Scan] Directory scan (Windows)
   -> D:\AIwkspace
@@ -70,26 +54,45 @@ Loaded 212 preset projects (projects.csv)
 
 [Scan] winget (Windows)
   - [found] Ollama (0.30.3)
+  - [found] Figma (126.2.7)
 
 [Preset] from projects.csv -- 1 project
-[Discovered] AI keyword match -- 10 projects
+[Discovered] AI keyword match -- 11 projects
 
-  Updatable: 6   Latest: 5   Total: 11
+  Updatable: 7   Latest: 5   Total: 12
 
 Which ones do you want to upgrade?
   [1,3,5] pick  [1-5] range  [all] everything  [p] preset only  [d] discovered only  [q] quit
 >
 ```
 
-You pick the numbers, the skill does the rest: `git pull`, `pip install --upgrade`, `brew upgrade`, `winget upgrade`.
+## Install
 
-## Why a Claude Code skill?
+```bash
+git clone https://github.com/176336109/AI-Updater.git
+cd AI-Updater
 
-You already live in Claude Code. Your Python environments, your AI projects, your workflows — it's all there. Instead of opening another terminal and remembering package names, you just type `/ai-updater` and Claude Code handles the scanning, version comparison, and upgrading.
+# Run the installer (auto-detects your AI tools)
+bash install.sh        # macOS / Linux
+# install.bat           # Windows
 
-- **You're already here.** No context-switching to another tool.
-- **Claude Code can reach everything.** pip, npm, brew, winget, conda, git — all the package managers you use.
-- **Claude Code can explain.** If an update fails, the error is right there in your session. Ask Claude Code to fix it.
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+The installer copies the skill to the right config directories:
+
+| Tool | Installed to |
+|---|---|
+| **Claude Code** | `~/.claude/skills/ai-updater/` + `~/.claude/commands/` |
+| **Codex** | `~/.codex/skills/ai-updater/` + `~/.codex/commands/` |
+| **Cursor** | `~/.cursor/commands/` |
+
+Then open your AI coding tool and type `/ai-updater`.
+
+## Why a Claude Code Skill
+
+You already live in Claude Code. Instead of switching to another terminal, just type `/ai-updater` and Claude Code handles everything — scanning, comparing, upgrading. If an update fails, the error is right there in your session. Ask Claude Code to fix it.
 
 ## Features
 
@@ -97,8 +100,8 @@ You already live in Claude Code. Your Python environments, your AI projects, you
 
 | Layer | How it works |
 |---|---|
-| **Preset (212 projects)** | Scans directories for git repos. Matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
-| **Smart discovery** | Iterates ALL installed packages across pip/npm/brew/winget/conda. Matches against AI keywords: torch, transformers, langchain, gradio, whisper, chroma, ollama, deepseek, grok... |
+| **Preset (229 projects)** | Scans directories for git repos, matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
+| **Smart discovery** | Iterates ALL installed packages across pip/npm/brew/winget/conda. Matches AI keywords — torch, transformers, langchain, gradio, whisper, chroma, ollama, figma, deepseek, grok... |
 
 ### Upgrade engine
 
@@ -108,13 +111,14 @@ You already live in Claude Code. Your Python environments, your AI projects, you
 - **winget**: `winget upgrade`
 - **conda / npm**: detected and reported
 
-### Interactive
+### Interactive selection
 
-After the scan, **you** decide:
-- `p` — upgrade preset projects only
-- `d` — upgrade discovered packages only
-- `1,3,5` — pick specific items
+After scanning, **you** decide:
+- `p` — preset projects only
+- `d` — discovered packages only
+- `1,3,5` — specific items
 - `all` — upgrade everything
+- `q` — quit
 
 ### Cross-platform
 
@@ -148,17 +152,17 @@ The skill reads it on every run. No code changes needed.
 
 | Category | Count | Examples |
 |---|---|---|
-| Image Generation | 25 | ComfyUI, AUTOMATIC1111, Forge, Fooocus, InvokeAI, SwarmUI, FaceFusion, StabilityMatrix, Real-ESRGAN, AnimateDiff |
-| LLM Tools | 29 | Ollama, Open WebUI, text-gen-webui, llama.cpp, vLLM, GPT4All, Jan, LiteLLM, SGLang, Tabby, NextChat |
-| AI Frameworks | 27 | Langflow, Dify, Flowise, AutoGPT, CrewAI, MetaGPT, LangChain, LlamaIndex, LangGraph, AutoGen, Haystack |
-| Voice AI | 17 | Whisper.cpp, Coqui TTS, Bark, RVC-WebUI, GPT-SoVITS, ChatTTS, OpenAI-Whisper, faster-whisper, WhisperX, AudioCraft |
-| Vector DB | 12 | Chroma, Qdrant, Milvus, Weaviate, PGVector, LanceDB, FAISS, Vespa |
+| Image Generation | 25 | ComfyUI, AUTOMATIC1111, Forge, Fooocus, InvokeAI, SwarmUI |
+| LLM Tools | 29 | Ollama, Open WebUI, text-gen-webui, llama.cpp, vLLM, GPT4All |
+| AI Frameworks | 27 | Langflow, Dify, Flowise, AutoGPT, CrewAI, LangChain |
+| Voice AI | 17 | Whisper.cpp, Coqui TTS, Bark, RVC-WebUI, ChatTTS |
+| Vector DB | 12 | Chroma, Qdrant, Milvus, Weaviate, PGVector |
 | AI Coding | 3 | Aider, Continue, Cline |
-| AI Memory | 51 | Mem0, Letta, Cognee, Graphiti, LangMem, Memary, MemoryOS, Memobase, TeleMem, PowerMem, TencentDB-Agent-Memory |
+| AI Memory | 51 | Mem0, Letta, Cognee, Graphiti, MemoryOS |
 | RAG Frameworks | 5 | RAGFlow, Quivr, Verba, Cognita, AgentGPT |
-| Code Graph | 8 | codegraph, codebase-memory-mcp, GitNexus, FalkorDB-code-graph, code2prompt |
-| Token Optimization | 35 | LLMLingua, Headroom, RTK, RouteLLM, tiktoken, Langfuse, LMCache |
-| Design Tools | 17 | Open Design, screenshot-to-code, oh-my-mermaid, drawio-skill, penpot, remotion, hyperframes |
+| Code Graph | 8 | codegraph, GitNexus, code2prompt |
+| Token Optimization | 35 | LLMLingua, Headroom, RouteLLM, tiktoken, Langfuse |
+| Design Tools | 17 | Open Design, screenshot-to-code, oh-my-mermaid, penpot, remotion |
 
 ## How it works
 
@@ -169,22 +173,19 @@ flowchart LR
     C --> D[UPGRADE<br/>user picks<br/>git pull /<br/>pip upgrade]
 ```
 
-## Requirements
-
-- Python 3.8+
-- Git (for git-based projects)
-- `pip install -r requirements.txt`
-
 ## FAQ
 
 **Q: Will it break my local changes?**  
-A: No. Git projects get `git stash` before `git pull`. pip packages are safely upgraded.
+A: No. `git stash` before every pull. pip packages are safely upgraded.
 
 **Q: Can I ignore certain projects?**  
 A: Yes. Add their names to `ignore_projects` in `config.yaml`.
 
 **Q: What if a project isn't in the 229 presets?**  
-A: Smart discovery catches AI-related packages from your package managers automatically. You can also add it to `projects.csv`.
+A: Smart discovery catches AI-related packages from your package managers automatically. Or add it to `projects.csv`.
+
+**Q: Does it work on Linux?**  
+A: Not yet. PRs welcome.
 
 ## License
 
