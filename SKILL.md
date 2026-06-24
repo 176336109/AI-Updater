@@ -1,6 +1,6 @@
 ---
 name: ai-updater
-description: 一键扫描并更新电脑上所有 AI 开源软件（69 预设 + AI 关键词智能发现，Git/pip/brew/winget/conda/npm），Win+Mac 双平台
+description: 一键扫描并更新电脑上所有 AI 开源软件（229 预设 + AI 关键词智能发现，Git/pip/brew/winget/conda/npm），Win+Mac 双平台
 ---
 
 # AI Updater
@@ -16,7 +16,7 @@ python ai_updater.py
 
 ## What it does
 
-1. **Preset matching** — scans your directories + package managers against 69 known AI projects in `projects.csv`
+1. **Preset matching** — scans your directories + package managers against 212 known AI projects in `projects.csv`
 2. **Smart discovery** — scans ALL installed packages (pip/npm/brew/winget/conda) and identifies AI-related ones by keyword matching
 3. **Version comparison** — checks current vs latest (git remote / PyPI API / brew info)
 4. **Interactive upgrade** — pick what to upgrade: `p` preset only, `d` discovered only, `1,3,5` specific, or `all`

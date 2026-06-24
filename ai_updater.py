@@ -85,6 +85,9 @@ AI_KEYWORDS = {
     "gradio", "streamlit", "chainlit", "mesop",
     "ray", "deepspeed", "megatron", "colossal",
     "spacy", "nltk", "gensim", "allennlp",
+    # Design / UI
+    "penpot", "remotion", "framer", "figma", "sketch", "mermaid",
+    "drawio", "draw.io", "design-system", "frontend-design",
     # CV
     "opencv-python", "pillow-simd", "albumentations", "detectron",
     "yolo", "ultralytics", "mmdet", "mmseg",

@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white" alt="Python 3.8+">
   <img src="https://img.shields.io/badge/Platform-Windows_|_macOS-lightgrey" alt="Platform Win/Mac">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-  <img src="https://img.shields.io/badge/Preset_Projects-122-blue" alt="122 preset projects">
+  <img src="https://img.shields.io/badge/Preset_Projects-229-blue" alt="229 preset projects">
 </p>
 
 <h1 align="center">AI Updater</h1>
@@ -55,7 +55,7 @@ Type `/ai-updater` in Claude Code and the skill:
 |==========================================================|
 |  Windows Mode                                          |
 |==========================================================|
-Loaded 122 preset projects (projects.csv)
+Loaded 212 preset projects (projects.csv)
 
 [Scan] Directory scan (Windows)
   -> D:\AIwkspace
@@ -97,7 +97,7 @@ You already live in Claude Code. Your Python environments, your AI projects, you
 
 | Layer | How it works |
 |---|---|
-| **Preset (122 projects)** | Scans directories for git repos. Matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
+| **Preset (212 projects)** | Scans directories for git repos. Matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
 | **Smart discovery** | Iterates ALL installed packages across pip/npm/brew/winget/conda. Matches against AI keywords: torch, transformers, langchain, gradio, whisper, chroma, ollama, deepseek, grok... |
 
 ### Upgrade engine
@@ -144,7 +144,7 @@ Open `projects.csv` in Excel / WPS / Google Sheets. Append a row:
 
 The skill reads it on every run. No code changes needed.
 
-## Preset projects (122, 8 categories)
+## Preset projects (229, 11 categories)
 
 | Category | Count | Examples |
 |---|---|---|
@@ -154,8 +154,11 @@ The skill reads it on every run. No code changes needed.
 | Voice AI | 17 | Whisper.cpp, Coqui TTS, Bark, RVC-WebUI, GPT-SoVITS, ChatTTS, OpenAI-Whisper, faster-whisper, WhisperX, AudioCraft |
 | Vector DB | 12 | Chroma, Qdrant, Milvus, Weaviate, PGVector, LanceDB, FAISS, Vespa |
 | AI Coding | 3 | Aider, Continue, Cline |
-| AI Memory | 4 | Mem0, Letta, Cognee, Graphiti |
+| AI Memory | 51 | Mem0, Letta, Cognee, Graphiti, LangMem, Memary, MemoryOS, Memobase, TeleMem, PowerMem, TencentDB-Agent-Memory |
 | RAG Frameworks | 5 | RAGFlow, Quivr, Verba, Cognita, AgentGPT |
+| Code Graph | 8 | codegraph, codebase-memory-mcp, GitNexus, FalkorDB-code-graph, code2prompt |
+| Token Optimization | 35 | LLMLingua, Headroom, RTK, RouteLLM, tiktoken, Langfuse, LMCache |
+| Design Tools | 17 | Open Design, screenshot-to-code, oh-my-mermaid, drawio-skill, penpot, remotion, hyperframes |
 
 ## How it works
 
@@ -180,7 +183,7 @@ A: No. Git projects get `git stash` before `git pull`. pip packages are safely u
 **Q: Can I ignore certain projects?**  
 A: Yes. Add their names to `ignore_projects` in `config.yaml`.
 
-**Q: What if a project isn't in the 122 presets?**  
+**Q: What if a project isn't in the 229 presets?**  
 A: Smart discovery catches AI-related packages from your package managers automatically. You can also add it to `projects.csv`.
 
 ## License
