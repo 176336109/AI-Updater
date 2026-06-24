@@ -1,12 +1,13 @@
 <p align="center">
+  <img src="https://img.shields.io/badge/Claude_Code-Skill-blueviolet?logo=claude&logoColor=white" alt="Claude Code Skill">
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white" alt="Python 3.8+">
   <img src="https://img.shields.io/badge/Platform-Windows_|_macOS-lightgrey" alt="Platform Win/Mac">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
   <img src="https://img.shields.io/badge/预设项目-69-blue" alt="69 preset projects">
 </p>
 
-<h1 align="center">🤖 AI Updater</h1>
-<p align="center"><strong>一行命令，找到并更新你电脑上所有的 AI 开源软件。</strong></p>
+<h1 align="center">AI Updater</h1>
+<p align="center"><strong>Claude Code Skill：一键找到并升级你电脑上所有的 AI 开源项目。</strong></p>
 
 <p align="center">
   <a href="README.md">English</a>
@@ -14,68 +15,92 @@
 
 ---
 
-## 痛点
+## 安装
 
-你电脑上装了一大堆 AI 项目——ComfyUI、Ollama、Open WebUI、Langflow、Stable Diffusion WebUI、text-generation-webui……到底哪些有新版？哪些是 git 拉的、pip 装的、brew 安的还是 winget 下的？你甚至都忘了自己装过什么。
-
-## 解决方案
-
-`ai-updater` 扫描你的整台电脑——目录 + 包管理器——把所有的 AI 相关项目（包括你忘了的）全揪出来，检查有没有更新，然后一键升到最新。
+Clone 到任意位置，然后 Claude Code 就能识别：
 
 ```bash
-pip install -r requirements.txt
-python ai_updater.py
+git clone https://github.com/176336109/AI-Updater.git ~/.claude/skills/ai-updater
+pip install -r ~/.claude/skills/ai-updater/requirements.txt
 ```
 
-## 效果演示
+搞定。现在打开 Claude Code，输入：
 
 ```
+/ai-updater
+```
+
+Skill 会扫描你的整台电脑，找到所有 AI 项目，然后问你升级哪些。
+
+<p align="center"><em>Clone 一次。之后随时敲斜杠命令升级。</em></p>
+
+## `/ai-updater` 做了什么
+
+在 Claude Code 里敲 `/ai-updater`，Skill 会：
+
+```
+============================================================
+| AI Updater  --  一键更新你的 AI 开源工具箱
+|==========================================================|
+|  Windows 模式                                          |
+|==========================================================|
+已加载 69 个预设项目（projects.csv）
+
 [扫描] 目录扫描 (Windows)
   -> D:\AIwkspace
     v ComfyUI  (a1b2c3d)  [D:\AIwkspace\ComfyUI]
-    v Open WebUI  (v0.3.23)  [D:\AIwkspace\open-webui]
 
 [扫描] pip (Python)
   -- 智能发现 --
-  ! [发现] gradio (6.15.2)  -> 6.19.0
-  ! [发现] torch (2.12.0)   -> 2.12.1
+  ! [发现] torch (2.12.0)  -> 2.12.1
   ! [发现] transformers (5.9.0) -> 5.12.1
+  ! [发现] gradio (6.15.2)  -> 6.19.0
     pip 智能发现 9 个 AI 相关包
 
 [扫描] winget (Windows)
   - [发现] Ollama (0.30.3)
 
-[预设项目] 来自 projects.csv — 共 2 个         ← 从数据库匹配
-[智能发现] AI 关键词匹配 — 共 10 个              ← 自动发现
+[预设项目] 来自 projects.csv -- 1 个
+[智能发现] AI 关键词匹配 -- 10 个
 
-  可更新: 6   已最新: 6   总计: 12
+  可更新: 6   已最新: 5   总计: 11
 
 你想升级哪些？
-  【1,3,5】 选序号  【1-5】 范围  【all】 全部  【p】 仅预设  【d】 仅发现  【q】 退出
-> 
+  [1,3,5] 选序号  [1-5] 范围  [all] 全部  [p] 仅预设  [d] 仅发现  [q] 退出
+>
 ```
+
+你选好序号，Skill 帮你执行：`git pull`、`pip install --upgrade`、`brew upgrade`、`winget upgrade`。
+
+## 为什么做成 Claude Code Skill？
+
+你本来就泡在 Claude Code 里。Python 环境、AI 项目、工作流，全在这。与其再开一个终端、回想包名，不如直接敲 `/ai-updater`，Claude Code 帮你扫描、比对、升级。
+
+- **不用切工具。** 你已经在 Claude Code 里了。
+- **Claude Code 什么都能调。** pip、npm、brew、winget、conda、git——所有包管理器。
+- **Claude Code 能解释。** 某个项目更新失败了？错误信息就在会话里，直接让 Claude Code 帮你修。
 
 ## 核心能力
 
-### 双层检测
+### 预设匹配 + 智能发现
 
 | 层 | 原理 |
 |---|---|
-| **预设匹配**（69 项目） | 扫描目录找 git 仓库 + 特征文件，与 `projects.csv` 匹配。同时检查 pip/brew/winget/conda 中关联的包。 |
-| **智能发现** | 遍历**所有已安装的包**（pip, npm, brew, winget, conda），用 AI 关键词匹配——torch、transformers、langchain、gradio、whisper、chroma、ollama 等——把 CSV 里没有的也揪出来。 |
+| **预设匹配（69 项目）** | 扫描目录找 git 仓库，与 `projects.csv` 匹配。同时检查 pip/brew/winget/conda 中关联的包。 |
+| **智能发现** | 遍历 pip/npm/brew/winget/conda 中**所有已装包**，用 AI 关键词匹配——torch、transformers、langchain、gradio、whisper、chroma、ollama、deepseek、grok…… |
 
-### 智能更新引擎
+### 更新引擎
 
-- **Git 项目**：`git stash`（保护本地修改）-> `git pull` -> 执行更新后命令（如 pip install requirements）
-- **pip 包**：`pip install --upgrade` + PyPI API 版本比对
-- **Homebrew**：`brew upgrade`
+- **Git 项目**：`git stash` -> `git pull` -> 更新后命令
+- **pip**：`pip install --upgrade` + PyPI 版本比对
+- **brew**：`brew upgrade`
 - **winget**：`winget upgrade`
-- **conda/npm**：检测并报告
+- **conda / npm**：检测并报告
 
-### 交互式选择
+### 你说了算
 
-扫描结束后，你来决定升级哪些：
-- `p` — 只升预设项目（安全，来自你的 CSV 数据库）
+扫描结束后，**你**决定升哪些：
+- `p` — 只升预设项目
 - `d` — 只升智能发现的包
 - `1,3,5` — 手动挑序号
 - `all` — 全部一起升
@@ -87,41 +112,36 @@ python ai_updater.py
 | **Windows** | pip · npm · winget · conda |
 | **macOS** | pip · npm · brew · conda |
 
-## 快速开始
+## 独立模式
+
+不想在 Claude Code 里用？直接跑脚本：
 
 ```bash
-# 1. Clone
-git clone https://github.com/YOU/ai-updater.git
-cd ai-updater
-
-# 2. 安装依赖
-pip install -r requirements.txt
-
-# 3. 运行
-python ai_updater.py
-
-# 首次运行自动生成 config.yaml，编辑它来添加你自己的扫描路径
+python ai_updater.py                  # 扫描 + 交互升级
+python ai_updater.py --scan-only      # 只扫描
+python ai_updater.py --update-all     # 自动全部升级
+python ai_updater.py --config my.yaml # 指定配置
 ```
 
 ## 添加你自己的项目
 
-用 **Excel / WPS / Google Sheets** 打开 `projects.csv`——它就是一个表格！在末尾新增一行：
+用 Excel / WPS / Google Sheets 打开 `projects.csv`，在末尾新增一行：
 
 | name | category | git_url | dir_signature | website | update_method | platforms |
 |---|---|---|---|---|---|---|
 | 我的项目 | llm-tools | github.com/my/project | myproject/main.py | https://... | git_pull | win\|mac |
 
-每次运行时脚本会自动读取，无需改代码。
+Skill 每次运行自动读取，无需改代码。
 
 ## 预设项目（69 项，5 大类）
 
 | 类别 | 数量 | 示例 |
 |---|---|---|
-| 🎨 图像生成 | 15 | ComfyUI、AUTOMATIC1111、Forge、Fooocus、InvokeAI、SwarmUI、FaceFusion |
-| 🧠 LLM 工具 | 20 | Ollama、Open WebUI、text-gen-webui、llama.cpp、vLLM、GPT4All、Jan |
-| 🔧 AI 框架 | 16 | Langflow、Dify、Flowise、AutoGPT、CrewAI、MetaGPT、LangChain、LlamaIndex |
-| 🎤 语音 AI | 9 | Whisper.cpp、Coqui TTS、Bark、RVC-WebUI、GPT-SoVITS、ChatTTS |
-| 🗂️ 向量数据库 | 9 | Chroma、Qdrant、Milvus、Weaviate、PGVector、LanceDB |
+| 图像生成 | 15 | ComfyUI、AUTOMATIC1111、Forge、Fooocus、InvokeAI、SwarmUI、FaceFusion |
+| LLM 工具 | 20 | Ollama、Open WebUI、text-gen-webui、llama.cpp、vLLM、GPT4All、Jan |
+| AI 框架 | 16 | Langflow、Dify、Flowise、AutoGPT、CrewAI、MetaGPT、LangChain、LlamaIndex |
+| 语音 AI | 9 | Whisper.cpp、Coqui TTS、Bark、RVC-WebUI、GPT-SoVITS、ChatTTS |
+| 向量数据库 | 9 | Chroma、Qdrant、Milvus、Weaviate、PGVector、LanceDB |
 
 ## 原理解析
 
@@ -141,16 +161,13 @@ flowchart LR
 ## 常见问题
 
 **Q: 会弄坏我的本地修改吗？**  
-A: 不会。Git 项目在 pull 前自动 `git stash`。pip 包安全升级。所有操作可逆。
+A: 不会。Git 项目在 pull 前自动 `git stash`。pip 包安全升级。
 
-**Q: 能忽略某些项目不检查吗？**  
+**Q: 能忽略某些项目吗？**  
 A: 可以。在 `config.yaml` 的 `ignore_projects` 里加上项目名。
 
 **Q: 69 个预设里没有我的项目怎么办？**  
-A: 智能发现会自动从包管理器里抓到 AI 相关的包。你也可以加到 `projects.csv`。
-
-**Q: 支持 Linux 吗？**  
-A: 暂时不支持，欢迎 PR！
+A: 智能发现会自动从包管理器抓出来。你也可以直接加到 `projects.csv`。
 
 ## License
 
