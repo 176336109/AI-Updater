@@ -1,0 +1,48 @@
+# ============================================
+# AI Updater - 用户配置文件
+# 首次运行 ai_updater.py 时会自动生成此文件。
+# 按需修改后保存即可。
+# ============================================
+
+# ----- 扫描路径 -----
+# 脚本会自动扫描这些目录，查找 AI 开源项目。
+# 追加你自己的路径：新增一行 "  - D:\\MyAIStuff"。
+scan_paths:
+  windows:
+    - "D:\\AI"
+    - "D:\\AIwkspace"
+    - "%USERPROFILE%\\source\\repos"
+    - "%USERPROFILE%\\Desktop"
+    - "%USERPROFILE%\\Documents"
+    - "%USERPROFILE%\\Downloads"
+  mac:
+    - "~/Desktop"
+    - "~/Documents"
+    - "~/Projects"
+    - "~/dev"
+    - "~/Downloads"
+    - "~/Applications"
+
+# ----- 包管理器开关 -----
+# true=启用扫描, false=跳过
+package_managers:
+  pip: true
+  npm: true
+  brew: true
+  winget: true
+  choco: false
+  conda: true
+
+# ----- 忽略项目 -----
+# 在下面列出你不想检查更新的项目名（与 projects.csv 中的 name 匹配）
+ignore_projects:
+  # - "ChatALL"
+  # - "FaceFusion"
+
+# ----- 行为设置 -----
+settings:
+  auto_update: false          # true=跳过确认直接更新（危险！）
+  parallel_updates: false     # true=多项目并行更新（实验性）
+  fetch_timeout: 30           # git fetch 超时秒数
+  show_scanned_dirs: true     # true=扫描时显示搜索路径
+  color_output: true          # true=彩色输出（需要 colorama）
