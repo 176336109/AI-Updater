@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white" alt="Python 3.8+">
   <img src="https://img.shields.io/badge/Platform-Windows_|_macOS-lightgrey" alt="Platform Win/Mac">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-  <img src="https://img.shields.io/badge/Preset_Projects-69-blue" alt="69 preset projects">
+  <img src="https://img.shields.io/badge/Preset_Projects-122-blue" alt="122 preset projects">
 </p>
 
 <h1 align="center">AI Updater</h1>
@@ -18,26 +18,32 @@
 ## Install
 
 ```bash
-# 1. Clone anywhere
-git clone https://github.com/176336109/AI-Updater.git ~/.claude/skills/ai-updater
+git clone https://github.com/176336109/AI-Updater.git
+cd AI-Updater
 
-# 2. Install Python dependencies
-pip install -r ~/.claude/skills/ai-updater/requirements.txt
+# Run the installer (auto-detects your AI tools)
+bash install.sh        # macOS / Linux
+# install.bat           # Windows
 
-# 3. Register the slash command (so you can type /ai-updater)
-mkdir -p ~/.claude/commands
-cp ~/.claude/skills/ai-updater/.claude/commands/ai-updater.md ~/.claude/commands/ai-updater.md
+# Install Python dependencies
+pip install -r requirements.txt
 ```
 
-That's it. Now open Claude Code and run:
+That's it. The installer copies the skill to the right config directories for:
+
+| Tool | Installed to |
+|---|---|
+| **Claude Code** | `~/.claude/skills/ai-updater/` + `~/.claude/commands/` |
+| **Codex** | `~/.codex/skills/ai-updater/` + `~/.codex/commands/` |
+| **Cursor** | `~/.cursor/commands/` |
+
+Now open your AI coding tool and type:
 
 ```
 /ai-updater
 ```
 
 The skill scans your machine, finds every AI project, and asks you which ones to upgrade.
-
-<p align="center"><em>Clone once. Run the slash command whenever you feel like updating.</em></p>
 
 ## What `/ai-updater` does
 
@@ -49,7 +55,7 @@ Type `/ai-updater` in Claude Code and the skill:
 |==========================================================|
 |  Windows Mode                                          |
 |==========================================================|
-Loaded 69 preset projects (projects.csv)
+Loaded 122 preset projects (projects.csv)
 
 [Scan] Directory scan (Windows)
   -> D:\AIwkspace
@@ -91,7 +97,7 @@ You already live in Claude Code. Your Python environments, your AI projects, you
 
 | Layer | How it works |
 |---|---|
-| **Preset (69 projects)** | Scans directories for git repos. Matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
+| **Preset (122 projects)** | Scans directories for git repos. Matches against `projects.csv`. Checks pip/brew/winget/conda for linked packages. |
 | **Smart discovery** | Iterates ALL installed packages across pip/npm/brew/winget/conda. Matches against AI keywords: torch, transformers, langchain, gradio, whisper, chroma, ollama, deepseek, grok... |
 
 ### Upgrade engine
@@ -138,15 +144,18 @@ Open `projects.csv` in Excel / WPS / Google Sheets. Append a row:
 
 The skill reads it on every run. No code changes needed.
 
-## Preset projects (69, 5 categories)
+## Preset projects (122, 8 categories)
 
 | Category | Count | Examples |
 |---|---|---|
-| Image Generation | 15 | ComfyUI, AUTOMATIC1111, Forge, Fooocus, InvokeAI, SwarmUI, FaceFusion |
-| LLM Tools | 20 | Ollama, Open WebUI, text-gen-webui, llama.cpp, vLLM, GPT4All, Jan |
-| AI Frameworks | 16 | Langflow, Dify, Flowise, AutoGPT, CrewAI, MetaGPT, LangChain, LlamaIndex |
-| Voice AI | 9 | Whisper.cpp, Coqui TTS, Bark, RVC-WebUI, GPT-SoVITS, ChatTTS |
-| Vector DB | 9 | Chroma, Qdrant, Milvus, Weaviate, PGVector, LanceDB |
+| Image Generation | 25 | ComfyUI, AUTOMATIC1111, Forge, Fooocus, InvokeAI, SwarmUI, FaceFusion, StabilityMatrix, Real-ESRGAN, AnimateDiff |
+| LLM Tools | 29 | Ollama, Open WebUI, text-gen-webui, llama.cpp, vLLM, GPT4All, Jan, LiteLLM, SGLang, Tabby, NextChat |
+| AI Frameworks | 27 | Langflow, Dify, Flowise, AutoGPT, CrewAI, MetaGPT, LangChain, LlamaIndex, LangGraph, AutoGen, Haystack |
+| Voice AI | 17 | Whisper.cpp, Coqui TTS, Bark, RVC-WebUI, GPT-SoVITS, ChatTTS, OpenAI-Whisper, faster-whisper, WhisperX, AudioCraft |
+| Vector DB | 12 | Chroma, Qdrant, Milvus, Weaviate, PGVector, LanceDB, FAISS, Vespa |
+| AI Coding | 3 | Aider, Continue, Cline |
+| AI Memory | 4 | Mem0, Letta, Cognee, Graphiti |
+| RAG Frameworks | 5 | RAGFlow, Quivr, Verba, Cognita, AgentGPT |
 
 ## How it works
 
@@ -171,7 +180,7 @@ A: No. Git projects get `git stash` before `git pull`. pip packages are safely u
 **Q: Can I ignore certain projects?**  
 A: Yes. Add their names to `ignore_projects` in `config.yaml`.
 
-**Q: What if a project isn't in the 69 presets?**  
+**Q: What if a project isn't in the 122 presets?**  
 A: Smart discovery catches AI-related packages from your package managers automatically. You can also add it to `projects.csv`.
 
 ## License

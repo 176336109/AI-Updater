@@ -10,16 +10,16 @@ Find and upgrade all AI-related open-source projects on this machine.
 
 1. Run the scanner:
    ```bash
-   cd ~/.claude/skills/ai-updater && python ai_updater.py
+   cd ~/.codex/skills/ai-updater && python ai_updater.py
    ```
 
-2. Read the output. Present the summary table to the user — which projects are updatable, which are latest.
+2. Read the scan results. Present the summary to the user — which projects are updatable, which are latest.
 
-3. Ask the user which ones to upgrade. Options:
+3. Ask the user which projects to upgrade. Options:
    - `all` — upgrade everything
-   - `p` — preset projects only (from projects.csv)
+   - `p` — preset projects only
    - `d` — discovered packages only
    - `1,3,5` or `1-5` — specific items
    - `q` — quit without upgrading
 
-4. Run the selected upgrades. Report success/fail/skip counts back to the user.
+4. Report results back to the user.

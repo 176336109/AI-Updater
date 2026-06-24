@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/Python-3.8+-3776AB?logo=python&logoColor=white" alt="Python 3.8+">
   <img src="https://img.shields.io/badge/Platform-Windows_|_macOS-lightgrey" alt="Platform Win/Mac">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License MIT">
-  <img src="https://img.shields.io/badge/预设项目-69-blue" alt="69 preset projects">
+  <img src="https://img.shields.io/badge/预设项目-122-blue" alt="122 preset projects">
 </p>
 
 <h1 align="center">AI Updater</h1>
@@ -18,18 +18,26 @@
 ## 安装
 
 ```bash
-# 1. Clone 到任意位置
-git clone https://github.com/176336109/AI-Updater.git ~/.claude/skills/ai-updater
+git clone https://github.com/176336109/AI-Updater.git
+cd AI-Updater
 
-# 2. 安装 Python 依赖
-pip install -r ~/.claude/skills/ai-updater/requirements.txt
+# 运行安装器（自动检测你的 AI 工具）
+bash install.sh        # macOS / Linux
+# install.bat           # Windows
 
-# 3. 注册斜杠命令（这样才能敲 /ai-updater）
-mkdir -p ~/.claude/commands
-cp ~/.claude/skills/ai-updater/.claude/commands/ai-updater.md ~/.claude/commands/ai-updater.md
+# 安装 Python 依赖
+pip install -r requirements.txt
 ```
 
-搞定。现在打开 Claude Code，输入：
+安装器会自动把 skill 复制到对应工具的配置目录：
+
+| 工具 | 安装位置 |
+|---|---|
+| **Claude Code** | `~/.claude/skills/ai-updater/` + `~/.claude/commands/` |
+| **Codex** | `~/.codex/skills/ai-updater/` + `~/.codex/commands/` |
+| **Cursor** | `~/.cursor/commands/` |
+
+搞定。打开你的 AI 编程工具，输入：
 
 ```
 /ai-updater
@@ -142,11 +150,14 @@ Skill 每次运行自动读取，无需改代码。
 
 | 类别 | 数量 | 示例 |
 |---|---|---|
-| 图像生成 | 15 | ComfyUI、AUTOMATIC1111、Forge、Fooocus、InvokeAI、SwarmUI、FaceFusion |
-| LLM 工具 | 20 | Ollama、Open WebUI、text-gen-webui、llama.cpp、vLLM、GPT4All、Jan |
-| AI 框架 | 16 | Langflow、Dify、Flowise、AutoGPT、CrewAI、MetaGPT、LangChain、LlamaIndex |
-| 语音 AI | 9 | Whisper.cpp、Coqui TTS、Bark、RVC-WebUI、GPT-SoVITS、ChatTTS |
-| 向量数据库 | 9 | Chroma、Qdrant、Milvus、Weaviate、PGVector、LanceDB |
+| 图像生成 | 25 | ComfyUI、AUTOMATIC1111、Forge、Fooocus、InvokeAI、SwarmUI、FaceFusion、StabilityMatrix、Real-ESRGAN、AnimateDiff、OneTrainer |
+| LLM 工具 | 29 | Ollama、Open WebUI、text-gen-webui、llama.cpp、vLLM、GPT4All、Jan、LiteLLM、SGLang、Tabby、NextChat、Chatbox |
+| AI 框架 | 27 | Langflow、Dify、Flowise、AutoGPT、CrewAI、MetaGPT、LangChain、LlamaIndex、LangGraph、AutoGen、Haystack、smolagents |
+| 语音 AI | 17 | Whisper.cpp、Coqui TTS、Bark、RVC-WebUI、GPT-SoVITS、ChatTTS、OpenAI-Whisper、faster-whisper、WhisperX、AudioCraft、F5-TTS |
+| 向量数据库 | 12 | Chroma、Qdrant、Milvus、Weaviate、PGVector、LanceDB、FAISS、Vespa |
+| AI 编程助手 | 3 | Aider、Continue、Cline |
+| AI 记忆 | 4 | Mem0、Letta、Cognee、Graphiti |
+| RAG 框架 | 5 | RAGFlow、Quivr、Verba、Cognita、AgentGPT |
 
 ## 原理解析
 
